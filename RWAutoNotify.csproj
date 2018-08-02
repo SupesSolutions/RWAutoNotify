@@ -50,11 +50,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ASWidgets\RWASWidgets.csproj">
+    <ProjectReference Include="..\ASWidgets\RWASWidgets.csproj">
       <Project>{e6bfb709-cab0-40b6-aaf1-ad67c56bbd74}</Project>
       <Name>RWASWidgets</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\RWASFilterLib\RWASFilterLib.csproj">
+    <ProjectReference Include="..\RWASFilterLib\RWASFilterLib.csproj">
       <Project>{c8858c15-4d8d-4d5a-ba0a-83d213da28ed}</Project>
       <Name>RWASFilterLib</Name>
     </ProjectReference>
