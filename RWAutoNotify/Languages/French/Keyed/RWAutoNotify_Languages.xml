@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <RWAutoSell.NotifyUnder>Notifier quand sous</RWAutoSell.NotifyUnder>
+  <RWAutoSell.NotifyOver>Avertir quand plus de</RWAutoSell.NotifyOver>
+  <!-- Root Names -->  
+  <RWAutoSell.Notification>Notification</RWAutoSell.Notification>
+  <!-- Main Tab -->
+  <RWAutoSell.TabNotify>Notifications</RWAutoSell.TabNotify>
+  <!-- Report -->
+  <RWAutoSell.NotifyIn>Notifications de:</RWAutoSell.NotifyIn>
+</LanguageData>
