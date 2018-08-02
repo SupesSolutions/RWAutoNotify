@@ -5,25 +5,31 @@ The fewest files required for an extension is two files, these files are Rule St
 
 even though AutoSeller looks for IRuleComp, inherit the abstract class BaseRuleMapComp<T> to implement most of the storage control for you. T is your IRule Class.  the property TabName must be overridden, but everything else is completely optional.  BaseRuleMapComp<T> implements most of what is required for a functional container
   
-  TabName
-  This gets displayed on the AutoSeller Overview Window as a button for your rules list, must be implemented
+  
+TabName
+
+This gets displayed on the AutoSeller Overview Window as a button for your rules list, must be implemented
   
   Priority
+  
   this controls the order the tabs are displayed on the overview window, higher is further right, is completely optional, but if not overridden, will default to 100
  
  
  BaseRuleMapComp<T> inherits from MapComponent, which has ticker functionality for a per map basis, since there is only one per map, it makes for great per map settings storage
   
  
- for your IRule class, inherit from BaseRule will again help with implementing a chunk of IRule, you're left with DeepCompy and the constructor as the only methods required to implement.
+ 
+For your IRule class, inherit from BaseRule will again help with implementing a chunk of IRule, you're left with DeepCopy and the constructor as the only methods required to implement.
  
  in the Constructor be sure to add something along the following below.  you can have as many RuleRoots as you like
  Nodes_ = new List<RuleRoot> { new RuleRoot("Name of Root Here") };
  
  Active
+ 
  this can be used to suspend the rule
  
  DeepCopy
+ 
  this must be implemented, it deals with when a rule is copyed, and is also used for editing rules.  make sure Nodes_, Active_ amd RuleLabel are copied into the new rule, along with any other rule settings you want copied.
  
  DrawProperties
