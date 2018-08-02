@@ -6,12 +6,19 @@ using RWASFilterLib;
 
 namespace RWAutoNotify
 {
+    /// <summary>
+    /// This class acts as a container for your rules, you can also place map specific tickers to
+    /// process the rules in here, must be public and inherit from BaseRuleMapComp and use the rule type as the generic
+    /// </summary>
     public class ANMapComp : BaseRuledMapComp<ANRule>
     {
         static string name = "RWAutoSell.TabNotify";
         int notifyticks = 0;
         public bool Notified = false;
 
+        /// <summary>
+        /// controls the order of how rule types appear, higher number appear further right
+        /// </summary>
         public override int Priority { get { return int.MinValue + 2; } }
 
         public ANMapComp(Map map) : base(map)
@@ -19,6 +26,9 @@ namespace RWAutoNotify
             
         }
 
+        /// <summary>
+        /// This is what will be shown on the overview
+        /// </summary>
         public override string TabName { get { return name.Translate(); } }
 
         public static ANMapComp GetSingleton(Map map)
@@ -31,6 +41,9 @@ namespace RWAutoNotify
             return Find.CurrentMap.GetComponent<ANMapComp>();
         }
 
+        /// <summary>
+        /// this method can be used to process your rules
+        /// </summary>
         public override void MapComponentTick()
         {
             if (map.IsPlayerHome)
