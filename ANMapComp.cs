@@ -50,7 +50,7 @@ namespace RWAutoNotify
             {
                 if (notifyticks < 0)
                 {
-                    if (!ASNotify.Notify(map, Rules, ref Notified))
+                    if (!ASNotify.Notify(this, Rules, ref Notified))
                         Notified = false;
                     notifyticks = 3600;
                 }
