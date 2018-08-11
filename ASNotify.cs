@@ -48,18 +48,25 @@ namespace RWAutoNotify
         {
             
             if (Rules.Count == 0 || !Rules.All(x => x.Active)) return false;
-            //you can use ASLibTransferUtility.MapTradables to retrieve a tradables list from the specified map
+            //you can use ASLibTransferUtility.MapTradables to retrieve a transferable list from the specified map
             List<TransferableOneWay> cachedtransferables = ASLibTransferUtility.MapTradables(mapcomp.map, true, TransferAsOneMode.PodsOrCaravanPacking);
             CacheRuleMatchList = new List<ANRule>();
             CacheLookList = new HashSet<Thing>();
 
-            //Loop thorough Rules, here this is done using the GetMatchedTradables lib function, this can only be done if the mapcomp inherits from BaseRuledMapComp<>
-            //Any actions we want to do during are done through delegate methods TransferableMatched and DoOnRule
-            ASLibTransferUtility.GetMatchedTradables(cachedtransferables, mapcomp, 0, TransferableMatched, DoOnRule);      
+            //This call to ASLibTransferUtility.GetMatchedTradables Loops thorough Rules, the function also deals with Inactive rules 
+            //this function can only be used if the MapComponent passed in inherits from BaseRuledMapComp<>
+            //Any actions we want to do during are done through delegate methods TransferableMatched and DoOnRule,
+            //lambda expression are also a viable option using (T, I) => {} and (List<T>, I) => {}
+            ASLibTransferUtility.GetMatchedTradables(cachedtransferables, mapcomp, 0, TransferableMatched, DoOnRule);
+
+            
+            
+
+
 
             if (CacheRuleMatchList.Count != 0)
             {
-                //don't trigger a notification if already notified earlier
+                //don't trigger a notification if already notified earlier, causes doubles number of ticks til next letter
                 if (!Notified)
                 {
                     //create string for letter to display, include information like which rule triggered
@@ -72,22 +79,24 @@ namespace RWAutoNotify
                         sb.AppendLine(rule.ToString());
                     }
                     //display letter
-                    Find.LetterStack.ReceiveLetter("RWAutoSell.Notification".Translate(), sb.ToString(), LetterDefOf.PositiveEvent, new LookTargets(CacheLookList));
-                    
+                    Find.LetterStack.ReceiveLetter("RWAutoSell.Notification".Translate(), sb.ToString(), LetterDefOf.PositiveEvent, new LookTargets(CacheLookList));                    
                 }
 
-                //allow GC to free memory
-                CacheLookList = null;
-                CacheRuleMatchList = null;
+                ResetLists();                
 
                 return true;
             }
 
+            ResetLists();
+
+            return false;
+        }
+
+        private static void ResetLists()
+        {
             //allow GC to free memory
             CacheLookList = null;
             CacheRuleMatchList = null;
-
-            return false;
         }
 
     }

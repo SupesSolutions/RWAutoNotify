@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("RWAutoNotify")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Auto Notify (Autoseller Extension)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Supes Solutions")]
 [assembly: AssemblyProduct("RWAutoNotify")]
