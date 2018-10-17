@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>D:\SteamLibrary_High\steamapps\common\RimWorld\RimWorldWin_Data\Managed\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp, Version=0.19.6808.9352, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\SteamLibrary_High\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -39,13 +40,15 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>D:\SteamLibrary_High\steamapps\common\RimWorld\RimWorldWin_Data\Managed\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\SteamLibrary_High\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ANMapComp.cs" />
     <Compile Include="ANRule.cs" />
+    <Compile Include="ANWizDialog.cs" />
     <Compile Include="ASNotify.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,9 +58,14 @@
   <ItemGroup>
     <Content Include="RWAutoNotify\About\About.xml" />
     <Content Include="RWAutoNotify\About\Preview.png" />
-    <Content Include="RWAutoNotify\Languages\English\Keyed\RWAutoNotify_Languages.xml" />
+    <Content Include="RWAutoNotify\About\PublishedFileId.txt" />
+    <Content Include="RWAutoNotify\Languages\English\Keyed\RWAutoNotify_Languages.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="RWAutoNotify\Languages\French\Keyed\RWAutoNotify_Languages.xml" />
-    <Content Include="RWAutoNotify\Languages\German\Keyed\RWAutoNotify_Languages.xml" />
+    <Content Include="RWAutoNotify\Languages\German\Keyed\RWAutoNotify_Languages.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ASWidgets\RWASWidgets.csproj">
@@ -72,6 +80,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(TargetPath)" "$(ProjectDir)\RWAutoNotify\Assemblies\"
+rd /s /q "D:\SteamLibrary_High\steamapps\common\RimWorld\Mods\RWAutoNotify"
+xcopy /e "$(ProjectDir)RWAutoNotify" "D:\SteamLibrary_High\steamapps\common\RimWorld\Mods\RWAutoNotify\"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

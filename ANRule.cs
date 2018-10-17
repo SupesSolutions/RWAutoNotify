@@ -6,6 +6,8 @@ using UnityEngine;
 using Verse;
 using RWASFilterLib;
 using RWASWidgets;
+using RimWorld.Planet;
+using RimWorld;
 
 namespace RWAutoNotify
 {
@@ -23,7 +25,7 @@ namespace RWAutoNotify
         private bool NotifyUnder_ = true;
         [AutoSellExportableValue(SaveName = "Quantiy")]
         private int Quant_;
-        private string QCache;        
+        private string QCache;
 
         public bool NotifyUnder
         {
@@ -49,7 +51,7 @@ namespace RWAutoNotify
                 Active_ = Active_,
                 RuleLabel = RuleLabel,
                 NotifyUnder_ = NotifyUnder_,
-                Quant_ = Quant_,                        
+                Quant_ = Quant_,
             };
 
             return temp;
@@ -62,6 +64,49 @@ namespace RWAutoNotify
         public ANRule()
         {
             Nodes_ = new List<RuleRoot> { new RuleRoot("RWAutoSell.Notification".Translate()) };
+        }
+
+
+        public ANRule(TradeRequestComp Comp) : this()
+        {
+            Quant_ = Comp.requestCount;
+            NotifyUnder_ = false;
+
+            ThingDef def = Comp.requestThingDef;
+            RuleLabel = "Generated: " + Comp.CompInspectStringExtra();
+
+            //Get type via label
+            Type t = ASLibMod.GetSingleton.GetBaseFilters.First(x => x.GetType().FullName == "RWAutoSell.Filters.FilterCat").GetType();    //.First(x. => x.Label == "RWAutoSell.FilterCat".Translate()).GetType();
+
+            //create filtercontainer using type, and populate data
+            FilterContainer cat = new FilterContainer(t)
+            {
+                FilterData = new List<string>() { "thg." + def.defName }
+            };
+
+
+            //and another type/container pair for quality, underlying byte value for normal is '2'
+            Type t2 = ASLibMod.GetSingleton.GetBaseFilters.First(x => x.GetType().FullName == "RWAutoSell.Filters.FilterQuality").GetType();
+            //Type t2 = ASLibMod.GetSingleton.GetBaseFilters.First(x => x.Label == "Quality".Translate()).GetType();
+            
+            List<string> data = new List<string>();
+            foreach (QualityCategory qc in QualityUtility.AllQualityCategories)
+            {
+                if ((int)qc >= 2)
+                {
+                    data.Add(((byte)qc).ToString());
+                }
+
+            }
+
+            FilterContainer qlt = new FilterContainer(t2)
+            {
+                FilterData = data
+            };
+
+            Nodes_[0].RootNode.Filters.Add(cat);
+            Nodes_[0].RootNode.Filters.Add(qlt);
+
         }
 
         /// <summary>

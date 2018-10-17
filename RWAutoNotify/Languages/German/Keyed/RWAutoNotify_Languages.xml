@@ -8,4 +8,7 @@
   <RWAutoSell.TabNotify>Benachrichtigungen</RWAutoSell.TabNotify>
   <!-- Report -->
   <RWAutoSell.NotifyIn>Benachrichtigungen von:</RWAutoSell.NotifyIn>
+  <RWAutoSell.NotifyGenerated>Generiert: {0}</RWAutoSell.NotifyGenerated>
+  <RWAutoSell.NotifyTradeRequests>Handelsanfragen</RWAutoSell.NotifyTradeRequests>
+  <RWAutoSell.NotifySummary>Von:\n{0}\n\nAnfordern:\n{1}\n\nBelohnung:\n{2}</RWAutoSell.NotifySummary>
 </LanguageData>

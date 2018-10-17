@@ -21,6 +21,25 @@ namespace RWAutoNotify
         /// </summary>
         public override int Priority { get { return int.MinValue + 2; } }
 
+        /// <summary>
+        /// if overridden, it shows an additional button next to the create button
+        /// </summary>
+        public override string AdditonalName
+        {
+            get
+            {
+                return "RWAutoSell.NotifyTradeRequests".Translate();
+            }
+        }
+
+        /// <summary>
+        /// Controls what window is show by the additional button
+        /// </summary>
+        public override Window AdditionalWindow()
+        {
+            return new ANWizDialog(map);
+        }
+
         public ANMapComp(Map map) : base(map)
         {
             

@@ -5,6 +5,7 @@ using System.Text;
 using Verse;
 using RimWorld;
 using RWASFilterLib;
+using RimWorld.Planet;
 
 namespace RWAutoNotify
 {
@@ -98,6 +99,32 @@ namespace RWAutoNotify
             CacheLookList = null;
             CacheRuleMatchList = null;
         }
+
+        public static List<TradeRequestComp> GetRequests()
+        {
+            //List<ANRule> possiblerules = new List<ANRule>();
+            List<TradeRequestComp> comps = new List<TradeRequestComp>();
+            //ANRule rule = new ANRule();
+
+            foreach (WorldObject wo in Find.WorldObjects.AllWorldObjects)
+            {
+                TradeRequestComp tr = wo.GetComponent<TradeRequestComp>();
+                if (tr != null && tr.ActiveRequest)
+                {
+                    comps.Add(tr); //new ANRule(tr));
+
+
+                }
+               
+
+            }
+
+            return comps;
+
+
+        }
+
+
 
     }
 }
