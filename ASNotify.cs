@@ -11,8 +11,10 @@ namespace RWAutoNotify
 {
     static class ASNotify
     {
-        private static HashSet<Thing> CacheLookList = null;        
-        private static List<ANRule> CacheRuleMatchList = null;
+
+
+        private static HashSet<Thing> CacheLookList = new HashSet<Thing>();        
+        private static List<ANRule> CacheRuleMatchList = new List<ANRule>();
         static int CacheCount = 0;
 
         /// <summary>
@@ -48,23 +50,17 @@ namespace RWAutoNotify
         public static bool Notify(ANMapComp mapcomp, List<ANRule> Rules, ref bool Notified)
         {
             
-            if (Rules.Count == 0 || !Rules.All(x => x.Active)) return false;
+            if (Rules.Count == 0 || !Rules.Any(x => x.Active)) return false;
             //you can use ASLibTransferUtility.MapTradables to retrieve a transferable list from the specified map
             List<TransferableOneWay> cachedtransferables = ASLibTransferUtility.MapTradables(mapcomp.map, true, TransferAsOneMode.PodsOrCaravanPacking);
-            CacheRuleMatchList = new List<ANRule>();
-            CacheLookList = new HashSet<Thing>();
+            
 
             //This call to ASLibTransferUtility.GetMatchedTradables Loops thorough Rules, the function also deals with Inactive rules 
             //this function can only be used if the MapComponent passed in inherits from BaseRuledMapComp<>
             //Any actions we want to do during are done through delegate methods TransferableMatched and DoOnRule,
             //lambda expression are also a viable option using (T, I) => {} and (List<T>, I) => {}
             ASLibTransferUtility.GetMatchedTradables(cachedtransferables, mapcomp, 0, TransferableMatched, DoOnRule);
-
             
-            
-
-
-
             if (CacheRuleMatchList.Count != 0)
             {
                 //don't trigger a notification if already notified earlier, causes doubles number of ticks til next letter
@@ -84,11 +80,12 @@ namespace RWAutoNotify
                 }
 
                 ResetLists();                
-
+                //CacheRuleMatchList.Clear();
+                //CacheLookList.Clear();
                 return true;
             }
 
-            ResetLists();
+            ResetLists();          
 
             return false;
         }
@@ -96,8 +93,10 @@ namespace RWAutoNotify
         private static void ResetLists()
         {
             //allow GC to free memory
-            CacheLookList = null;
-            CacheRuleMatchList = null;
+            CacheRuleMatchList.Clear();
+            CacheLookList.Clear();
+            //CacheLookList = null;
+            //CacheRuleMatchList = null;
         }
 
         public static List<TradeRequestComp> GetRequests()
@@ -112,16 +111,9 @@ namespace RWAutoNotify
                 if (tr != null && tr.ActiveRequest)
                 {
                     comps.Add(tr); //new ANRule(tr));
-
-
                 }
-               
-
             }
-
             return comps;
-
-
         }
 
 

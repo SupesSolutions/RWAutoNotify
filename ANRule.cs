@@ -72,7 +72,7 @@ namespace RWAutoNotify
             Quant_ = Comp.requestCount;
             NotifyUnder_ = false;
 
-            ThingDef def = Comp.requestThingDef;
+            ThingDef def = Comp.requestThingDef;            
             RuleLabel = "Generated: " + Comp.CompInspectStringExtra();
 
             //Get type via label
@@ -84,28 +84,49 @@ namespace RWAutoNotify
                 FilterData = new List<string>() { "thg." + def.defName }
             };
 
+            Nodes_[0].RootNode.Filters.Add(cat);
 
-            //and another type/container pair for quality, underlying byte value for normal is '2'
-            Type t2 = ASLibMod.GetSingleton.GetBaseFilters.First(x => x.GetType().FullName == "RWAutoSell.Filters.FilterQuality").GetType();
-            //Type t2 = ASLibMod.GetSingleton.GetBaseFilters.First(x => x.Label == "Quality".Translate()).GetType();
-            
-            List<string> data = new List<string>();
-            foreach (QualityCategory qc in QualityUtility.AllQualityCategories)
+            if (def.HasComp(typeof(CompQuality)))
             {
-                if ((int)qc >= 2)
+                //and another type/container pair for quality, underlying byte value for normal is '2'
+                Type t2 = ASLibMod.GetSingleton.GetBaseFilters.First(x => x.GetType().FullName == "RWAutoSell.Filters.FilterQuality").GetType();
+                //Type t2 = ASLibMod.GetSingleton.GetBaseFilters.First(x => x.Label == "Quality".Translate()).GetType();
+
+                List<string> data = new List<string>();
+                foreach (QualityCategory qc in QualityUtility.AllQualityCategories)
                 {
-                    data.Add(((byte)qc).ToString());
+                    if ((int)qc >= 2)
+                    {
+                        data.Add(((byte)qc).ToString());
+                    }
+
                 }
 
+                FilterContainer qlt = new FilterContainer(t2)
+                {
+                    FilterData = data
+                };
+                Nodes_[0].RootNode.Filters.Add(qlt);
             }
 
-            FilterContainer qlt = new FilterContainer(t2)
+            if (def.IsApparel)
             {
-                FilterData = data
-            };
+                Type t3 = ASLibMod.GetSingleton.GetBaseFilters.First(x => x.GetType().FullName == "RWAutoSell.Filters.FilterApparel").GetType();
+                
+                List<string> data = new List<string>();
+                data.Add("tnt.1");
 
-            Nodes_[0].RootNode.Filters.Add(cat);
-            Nodes_[0].RootNode.Filters.Add(qlt);
+                FilterContainer app = new FilterContainer(t3)
+                {
+                    FilterData = data
+                };
+                Nodes_[0].RootNode.Filters.Add(app);
+
+            }
+            
+
+
+            
 
         }
 

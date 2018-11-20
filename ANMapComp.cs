@@ -71,7 +71,7 @@ namespace RWAutoNotify
                 {
                     if (!ASNotify.Notify(this, Rules, ref Notified))
                         Notified = false;
-                    notifyticks = 3600;
+                    notifyticks = 1800;  //3600
                 }
                 notifyticks--;
             }
