@@ -26,6 +26,48 @@ namespace RWAutoNotify
         [AutoSellExportableValue(SaveName = "Quantiy")]
         private int Quant_;
         private string QCache;
+        [AutoSellExportableList(SaveName = "Chain")]
+        protected List<ANRule> RuleChain_ = new List<ANRule>();
+
+        public override IEnumerable<IRule> RuleChain()
+        {
+            foreach (ANRule rule in RuleChain_)
+            {
+                yield return rule;
+            }
+
+            yield break;
+        }
+
+        public override void ChainedAdd(IRule Rule)
+        {
+            RuleChain_.Add((ANRule)Rule);
+        }
+
+        public override void ChainedReplace(IRule Origin, IRule Replacement)
+        {
+            if (Origin is ANRule o && Replacement is ANRule r)
+            {
+                int index = RuleChain_.IndexOf(o);
+                if (index == -1)
+                {
+                    RuleChain_.Add(r);
+                }
+                RuleChain_[index] = r;
+            }
+        }
+
+        public override void ChainedInsert(int i, IRule Rule)
+        {
+            if (Rule is ANRule r)
+                RuleChain_.Insert(i, r);
+        }
+
+        public override void ChainedRemove(IRule Rule)
+        {
+            if (Rule is ANRule r)
+                RuleChain_.Remove(r);
+        }
 
         public bool NotifyUnder
         {
@@ -49,6 +91,8 @@ namespace RWAutoNotify
             {
                 Nodes_ = (from el in Nodes_ select el.DeepCopy()).ToList(),
                 Active_ = Active_,
+                IsChain_ = IsChain_,
+                RuleChain_ = (from rc in RuleChain_ select rc.DeepCopy() as ANRule).ToList(),
                 RuleLabel = RuleLabel,
                 NotifyUnder_ = NotifyUnder_,
                 Quant_ = Quant_,
@@ -160,10 +204,16 @@ namespace RWAutoNotify
             
             Scribe_Values.Look(ref Quant_, "Quantiy", 0);
             Scribe_Values.Look(ref NotifyUnder_, "NotifyUnder", true);
-            
+            Scribe_Collections.Look(ref RuleChain_, "Chain");
+
             if (Nodes_ == null || Nodes_.Count == 0)
             {
                 Nodes_ = new List<RuleRoot> { new RuleRoot("RWAutoSell.Notification".Translate()) };
+            }
+
+            if (RuleChain_ == null)
+            {
+                RuleChain_ = new List<ANRule>();
             }
         }       
     }

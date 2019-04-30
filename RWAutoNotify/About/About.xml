@@ -2,6 +2,8 @@
   <name>Auto Notify (Autoseller Extension)</name>
   <author>Supes</author>
   <url>https://ludeon.com/forums/index.php?topic=14487.0</url>
-  <targetVersion>1.0.2059</targetVersion>
+  <supportedVersions>
+    <li>1.0</li>
+  </supportedVersions>
   <description>Adds the ability to set notifications for stock levels using editable rules, Requires AutoSeller2.  Load after AutoSeller</description>
 </ModMetaData>

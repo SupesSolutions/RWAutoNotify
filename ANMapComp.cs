@@ -16,6 +16,8 @@ namespace RWAutoNotify
         int notifyticks = 0;
         public bool Notified = false;
 
+        public override bool ChainsAllowed => true;
+
         /// <summary>
         /// controls the order of how rule types appear, higher number appear further right
         /// </summary>
